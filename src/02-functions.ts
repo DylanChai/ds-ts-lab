@@ -15,6 +15,19 @@ function allOlder(f: Friend[]):string[]{
     return messages;
 }
 
+function addInterest(friend: Friend, interest: string): string[] {
+    // If the 'interests' array is undefined, initialize it as an empty array
+    if (!friend.interests) {
+      friend.interests = [];
+    }
+    
+    // Add the new interest
+    friend.interests.push(interest);
+    
+    // Return the updated interests array
+    return friend.interests;
+  }
+
 function sortColleagues(
     colleagues: Colleague[],
     sorter: (c1: Colleague, c2: Colleague) => number,
@@ -66,3 +79,5 @@ console.log(allOlder(friends))
 console.log(highestExtension(colleagues.current));
 addColleague(colleagues.current, "Sheild O Connell", "HR", "soc@here.com");
 console.log(colleagues.current.filter((c) => c.name === "Sheild O Connell"));
+console.log(addInterest(friends[0], 'Politics'));  // Adds 'Politics' to friend1's interests
+console.log(addInterest(friends[1], 'Photography'));  // Adds 'Photography' to friend2's interests
