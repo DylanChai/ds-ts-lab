@@ -17,16 +17,18 @@ function allOlder(f: Friend[]):string[]{
 
 function sortColleagues(
     colleagues: Colleague[],
-    sorter: (c1: Colleague, c2: Colleague) => number
+    sorter: (c1: Colleague, c2: Colleague) => number,
+    max? : number
   ): EmailContact[] {
-    const sorted = colleagues.sort(sorter); // Colleague[] inferred
-    const result: EmailContact[] = sorted.map((ce) => ({ name: ce.name, email: ce.contact.email }));
-    return result 
+    let end = colleagues.length;
+    if (max !== undefined) {
+       end = max < 2 ? 1 : max
+    }
+    const sorted = colleagues.sort(sorter);
+    const fullResult =  sorted.map((ce) => ({ name: ce.name, email: ce.contact.email }));
+    return fullResult.slice(0,end)
   }
   
-  console.log(sortColleagues(colleagues.current, (a, b) => a.contact.extension - b.contact.extension));
-  console.log(sortColleagues(colleagues.current, (a, b) => a.name.length - b.name.length));
-
 // Find the colleague with the highest extension number.
 function highestExtension(cs: Colleague[]) { // Inferred retun type
     const result = cs.sort(
@@ -47,6 +49,7 @@ function highestExtension(cs: Colleague[]) { // Inferred retun type
     cs.push(newColleague);
 }
 
+  
 function findFriends(friends: Friend[], criterion: (friend: Friend) => boolean): string[] {
     return friends.filter(criterion).map(friend => friend.name);
 }
@@ -54,8 +57,9 @@ function findFriends(friends: Friend[], criterion: (friend: Friend) => boolean):
 // Test the `findFriends` function
 console.log(findFriends(friends, (friend) => friend.name.startsWith('Pa')));
 console.log(findFriends(friends, (friend) => friend.age < 35));
-
-
+console.log(sortColleagues(colleagues.current, (a, b) => (a.contact.extension - b.contact.extension),3));
+console.log(sortColleagues(colleagues.current, (a, b) => (a.name.length - b.name.length),1));
+console.log(sortColleagues(colleagues.current, (a, b) => (a.name.length - b.name.length))); // NEW
 
 console.log(older(friends[0]))
 console.log(allOlder(friends))
